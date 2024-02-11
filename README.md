@@ -3,5 +3,5 @@ As part of my 8th Semester subject, Computational Intelligence is a big subfield
 
 #### Feel welcome to see the magic 8)
 ```bash
-git clone https://github.com/Daniels1610/CI008-Dagraz.git)https://github.com/Daniels1610/CI008-Dagraz.git
+git clone https://github.com/Daniels1610/CI008-Dagraz.git
 ```
