@@ -1,32 +1,10 @@
 # BFS & DFS integrated into one Algorithm
-
 from classes.Stack import Stack
 from classes.Queue import Queue
 from typing import Union
+from utility import *
 import pandas as pd
 import numpy as np
-
-"""
-Agent Actions (Clockwise):
-- Up : (x-1, y)
-- Right : (x, y+1)
-- Down : (x+1, y)
-- Left : (x, y-1)
-"""
-
-def f(x: tuple, u: tuple):
-    return np.add(x,u)
-
-def U(state: tuple, maze_dim: tuple) -> np.ndarray:
-    U = []
-    if not (state[0] - 1 < 0): U.append((-1,0))  # aMove Up
-    if not (state[1] + 1 > maze_dim[1] - 1): U.append((0,1))  # Move Right
-    if not (state[0] + 1 > maze_dim[0] - 1): U.append((1,0))  # Move Down
-    if not (state[1] - 1 < 0): U.append((0,-1))  # Move Left
-    return np.array(U)
-  
-def get_index(state: tuple, maze_dim: tuple):
-    return (state[0] * (maze_dim[1])) + state[1]
 
 def BDFS(Q: Union[Stack, Queue], init_x: tuple, target_x: tuple, maze_data: np.ndarray) -> np.ndarray:
     visited_maze = np.copy(maze_data) 
