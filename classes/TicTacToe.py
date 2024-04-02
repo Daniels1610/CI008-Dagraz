@@ -14,10 +14,10 @@ Y_POS = {0: 2.20, 1: 1.20, 2: 0.15}
 class Board():
     __graph_board : Figure   # Visual representation 
     __s : np.ndarray         # Board state
-    __bin: tuple               # Tuple that contains 0s and 1s count from s
-    __history: list            # Stores played moves
-    __ply: int                 # Number of moves
-    __dim: tuple               # Board dimensions
+    __bin: tuple             # Tuple that contains 0s and 1s count from s
+    __history: list          # Stores played moves
+    __ply: int               # Number of moves
+    __dim: tuple             # Board dimensions
 
 
     def __init__(self, dim:tuple) -> Figure:
@@ -65,14 +65,17 @@ class Board():
             plt.text(X_POS[y], Y_POS[x], symbol, fontsize=SYMBOL_SIZE, color=color)
 
 
-    # AGENT METHODS
+    # IMPLEMENTATION METHODS
         
-    # Gets the player in turn to play from board state
+    # Player(s): Gets the player in turn to play from board state
     def player(self) -> str:
-        if (self.isTerminal()): return 'Board is Filled'
         return 'X' if np.sum(self.__s == 1) <= np.sum(self.__s == 0) else 'O'
 
-    # Executes board move (TRANSITION FUNCTION f(x,u))
+    # Actions(s): Get player's actions from given state (SPACE SEARCH U(x))
+    def actions(self) -> np.ndarray:
+        return np.transpose(np.where(self.__s == None))
+
+    # Result(s, a): Executes board move (TRANSITION FUNCTION f(x,u))
     def make_move(self, x:np.ndarray):
         x = x.flatten()
         if self.__s[x[0], x[1]] is None:
@@ -81,22 +84,42 @@ class Board():
             self.__ply += 1
             self.update_board(x)
         self.set_bin()
-
+    
     # Reverts last move
-    def undo_move(self, x:np.ndarray):
-        self.__s[x[0], x[1]] = None
+    def undo_move(self):
+        self.__s[self.history[-1][0], self.history[-1][1]] = None
+        self.__ply -= 1
 
-    # Get player's actions from given state (SPACE SEARCH U(x))
-    def actions(self) -> np.ndarray:
-        return np.transpose(np.where(self.__s == None))
-
-    # From current board state, indicates if the board is filled
-    def isTerminal(self) -> bool:
-        if (np.sum(self.bin) == np.prod(self.__s.shape)): return True
+    # Terminal(s): From current board state, indicates if the board has a winner or draw
+    def is_terminal(self) -> bool:
+        winner = self.winner()
+        if winner == None or winner: 
+            return True
         else: return False
 
     # TODO: Given a Terminal Board return the game's outcome
+    def winner(self):
+        self.undo_move()
+        prospect_winner = self.player()
+        self.make_move(self.history[-1])
+        win_struct = np.ones((1,self.__dim[0])) if prospect_winner == 'X' else np.zeros((1, self.__dim[0]))
+        
+        # Check winner by Rows & Columns
+        for i in range(self.__s.shape[0]):
+            if (np.isin(self.__s[i,:], win_struct).all() or np.isin(self.__s[:,i].T, win_struct).all()):
+                return prospect_winner
+            
+        # Check winner by diagonals
+        if (np.isin(np.diag(self.__s), win_struct).all() or (np.fliplr(self.__s).diagonal() == win_struct).all()):
+            return prospect_winner
+        elif np.sum(self.bin) == np.prod(self.__s.shape): return None
+        return False
     
+    # TODO: Returns utility value based on terminal state. -1 | 0 | 1 
+    def utility(self):
+        pass
+
+
     # GETTERS
     @property
     def board(self) -> Figure:
