@@ -56,17 +56,18 @@ class TicTacToe():
     
     # Resets board
     def init_state(self):
-        plt.close()
+        plt.close('all')
         self.__init__(self.__dim)
 
 
     # Visually display current game board
     def update_board(self, u:np.ndarray) -> Figure:
+        ax = self.__graph_board.axes[0]
         x, y = u[0], u[1]
         if self.__s[x, y] is not None:
             symbol = X_SYMBOL if self.__s[x, y] == 1 else O_SYMBOL
             color = X_COLOR if symbol == X_SYMBOL else O_COLOR
-            plt.text(X_POS[y], Y_POS[x], symbol, fontsize=SYMBOL_SIZE, color=color)
+            ax.text(X_POS[y], Y_POS[x], symbol, fontsize=SYMBOL_SIZE, color=color)
 
 
     # IMPLEMENTATION METHODS
@@ -161,18 +162,12 @@ class TicTacToe():
 
 def play(game:TicTacToe, x_player, o_player):
     while (np.any(game.state == None) and not game.is_terminal()):
-        # Player X move
-        if (game.player() == 'X'):
-            x_move = x_player.get_move(game)
-            game.make_move(x_move)
-            game.update_board(x_move)
-        
-        # Player O move
-        else:
-            o_move = o_player.get_move(game)
-            game.make_move(o_move)
-            game.update_board(o_move)
+        # Gets Player X/O move
+        move = x_player.get_move(game) if game.player() == 'X' else o_player.get_move(game)
+        game.make_move(move)
+    
         print(f"{game.state}\n")
+        game.update_board(move)
     winner = game.winner()
     if winner == 'X': print(f"PLAYER {x_player.letter} HAS WON!!")
     elif winner == 'O': print(f"PLAYER {o_player.letter} HAS WON!!")

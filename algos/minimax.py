@@ -1,3 +1,4 @@
+# Minimax Algorithm for Tic-Tac-Toe Game
 import math
 import numpy as np
 import copy

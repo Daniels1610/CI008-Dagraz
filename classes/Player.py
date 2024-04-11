@@ -47,8 +47,8 @@ class SmartComputerPlayer(Player):
             U = game.actions()
             move = U[np.random.choice(U.shape[0], size=1, replace=False), :].flatten()
         else:
-            move = self.minimax(copy.deepcopy(game), 4)[1]
-            print(f"BOT played: {move}\n")
+            move = self.minimax(copy.deepcopy(game), 3)[1]
+            print(f"Minimax played: {move}\n")
         return move
     
     def minimax(self, board, depth):

@@ -2,7 +2,7 @@
 from classes.Stack import Stack
 from classes.Queue import Queue
 from typing import Union
-from utility import *
+from support.maze_agent import get_index, U, f
 import pandas as pd
 import numpy as np
 
@@ -24,7 +24,7 @@ def BDFS(Q: Union[Stack, Queue], init_x: tuple, target_x: tuple, maze_data: np.n
 
 # DFS execution
 s = Stack()
-status, visited_maze, Q_s = BDFS(s, (6,0), (3,3), pd.read_csv('datasets/maze_01.csv', header=None).to_numpy())
+status, visited_maze, Q_s = BDFS(s, (6,0), (3,3), pd.read_csv('../datasets/mazes/maze_01.csv', header=None).to_numpy())
 print(f"Maze has solution to target state? : {status}\n")
 
 # Uncomment to use BFS implementation

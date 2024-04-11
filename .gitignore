@@ -3,4 +3,7 @@ __pycache__
 .vscode
 .DS_Store
 .python-version
+build
+dist
+settings.egg-info
 astar.py
