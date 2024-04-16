@@ -45,7 +45,10 @@ class SmartComputerPlayer(Player):
     def get_move(self, game):
         if game.actions().shape[0] == 9:
             U = game.actions()
-            move = U[np.random.choice(U.shape[0], size=1, replace=False), :].flatten()
+            corner_filter = np.array([[0,0],[0,2],[2,0],[2,2]])
+            is_corner = np.all(np.isin(U, corner_filter), axis=1)
+            corner_moves = U[is_corner]
+            move = corner_moves[np.random.choice(corner_moves.shape[0], size=1, replace=False), :].flatten()
         else:
             move = self.minimax(copy.deepcopy(game), 3)[1]
             print(f"Minimax played: {move}\n")
@@ -58,9 +61,7 @@ class SmartComputerPlayer(Player):
         best_value = -math.inf if board.player() == 'X' else math.inf
         best_move = None
 
-        current_state = copy.deepcopy(board.state)
         for move in board.actions():
-            board.set_state(current_state)
             board.make_move(move)
             val, _ = self.minimax(copy.deepcopy(board), depth - 1)
             board.undo_move()
