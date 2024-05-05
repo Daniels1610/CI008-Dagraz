@@ -1,12 +1,10 @@
-import copy
-import math
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-from classes.HumanPlayer import HumanPlayer
-from classes.SmartComputerPlayer import SmartComputerPlayer
-# from Player import HumanPlayer, SmartComputerPlayer, RandomComputerPlayer
+from classes.players.HumanPlayer import HumanPlayer
+from classes.players.SmartComputerPlayer import SmartComputerPlayer
 
+# Board Graphic display settings
 SYMBOL_SIZE = 70
 X_SYMBOL = 'X'; X_COLOR = 'b'
 O_SYMBOL = 'O'; O_COLOR = 'r'
@@ -14,13 +12,13 @@ X_POS = {0: 0.2, 1: 1.15, 2: 2.17}
 Y_POS = {0: 2.20, 1: 1.20, 2: 0.15}
 GAME_DIMS = (3,3)
 
-class TicTacToe():
+class Board():
     __graph_board : Figure   # Visual representation 
-    __s : np.ndarray         # TicTacToe state
+    __s : np.ndarray         # Board state
     __bin: np.ndarray        # Array that contains 0s and 1s count from s
     __history: list          # Stores played moves
     __ply: int               # Number of moves
-    __dim: tuple             # TicTacToe dimensions
+    __dim: tuple             # Board dimensions
 
 
     def __init__(self, dim:tuple) -> Figure:
@@ -33,10 +31,10 @@ class TicTacToe():
         self.__init_board()
  
     # BOARD METHODS
-    # TicTacToe Initialization
+    # Board Initialization
     def __init_board(self):
         """
-        A helper function to plot Tic-Tac-Toe TicTacToe
+        A helper function to plot Tic-Tac-Toe Board
         """
         plt.ioff()
 
@@ -44,7 +42,7 @@ class TicTacToe():
         self.__graph_board, ax = plt.subplots()
         self.__graph_board.set_facecolor('k')
 
-        # Draw TicTacToe
+        # Draw Board
         for i in range(1, self.__dim[0]):
             ax.plot([0, self.__dim[0]], [i, i], 'w-')
             ax.plot([i, i], [0,self.__dim[0]], 'w-')
@@ -161,7 +159,7 @@ class TicTacToe():
         self.__bin = np.bincount(self.__s[(self.__s != None)].astype(np.int8))
 
 
-def play(game:TicTacToe, x_player, o_player):
+def play(game:Board, x_player, o_player):
     while (np.any(game.state == None) and not game.is_terminal()):
         # Gets Player X/O move
         move = x_player.get_move(game) if game.player() == 'X' else o_player.get_move(game)
@@ -177,7 +175,7 @@ def play(game:TicTacToe, x_player, o_player):
 
 # Class Test
 if (__name__ == "__main__"):
-    t = TicTacToe(GAME_DIMS)
+    t = Board(GAME_DIMS)
     x_player = SmartComputerPlayer('X')
     o_player = HumanPlayer('O')
     play(t, x_player, o_player)

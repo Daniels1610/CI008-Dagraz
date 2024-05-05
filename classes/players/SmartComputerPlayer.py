@@ -1,7 +1,7 @@
 import copy
 import math
 import numpy as np
-from classes.Player import Player
+from classes.players.Player import Player
 
 class SmartComputerPlayer(Player):
     def __init__(self, letter) -> None:

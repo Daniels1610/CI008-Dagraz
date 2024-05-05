@@ -2,7 +2,7 @@
 import math
 import numpy as np
 import copy
-from classes.Game import TicTacToe
+from classes.Game import Board
 
 def minimax(board, depth):
     if board.is_terminal() or depth == 0:
@@ -31,7 +31,7 @@ def minimax(board, depth):
 
 
 if __name__ == "__main__":
-    b = TicTacToe((3,3))
+    b = Board((3,3))
     b.make_move(np.array([2,1]))
     b.make_move(np.array([1,1]))
     b.make_move(np.array([2,2]))

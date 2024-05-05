@@ -1,4 +1,4 @@
-from classes.Border import Border
+from classes.structures.Border import Border
 
 class Queue(Border):
     def __init__(self):

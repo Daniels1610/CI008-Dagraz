@@ -1,4 +1,4 @@
-from classes.Border import Border # Import required for Jupyter Notebook
+from classes.structures.Border import Border # Import required for Jupyter Notebook
 # from Border import Border # Import required to perform Unit Testing
 import numpy as np
 import heapq

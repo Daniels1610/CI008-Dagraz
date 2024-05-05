@@ -1,5 +1,5 @@
 import numpy as np
-from classes.Player import Player
+from classes.players import Player
 
 class RandomComputerPlayer(Player):
     def __init__(self, letter) -> None:
