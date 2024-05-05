@@ -3,7 +3,8 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-from classes.Player import HumanPlayer, SmartComputerPlayer, RandomComputerPlayer
+from classes.HumanPlayer import HumanPlayer
+from classes.SmartComputerPlayer import SmartComputerPlayer
 # from Player import HumanPlayer, SmartComputerPlayer, RandomComputerPlayer
 
 SYMBOL_SIZE = 70
@@ -142,7 +143,7 @@ class TicTacToe():
     @property
     def state(self) -> np.ndarray:
         return self.__s
-    
+            
     @property
     def history(self) -> list:
         return self.__history

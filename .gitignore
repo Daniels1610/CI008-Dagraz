@@ -6,4 +6,3 @@ __pycache__
 build
 dist
 settings.egg-info
-astar.py
