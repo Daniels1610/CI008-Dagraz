@@ -2,6 +2,7 @@ import copy
 import math
 import numpy as np
 from classes.players.Player import Player
+from classes.algos.minimax import minimax
 
 class SmartComputerPlayer(Player):
     def __init__(self, letter) -> None:
@@ -16,29 +17,6 @@ class SmartComputerPlayer(Player):
             move = corner_moves[np.random.choice(corner_moves.shape[0], size=1, replace=False), :].flatten()
             print(f"Minimax played: {move}\n")
         else:
-            move = self.minimax(copy.deepcopy(game), 3)[1]
+            move = minimax(copy.deepcopy(game), 3)[1]
             print(f"Minimax played: {move}\n")
         return move
-    
-    def minimax(self, board, depth):
-        if board.is_terminal() or depth == 0:
-            return board.utility(), None
-
-        best_value = -math.inf if board.player() == 'X' else math.inf
-        best_move = None
-
-        for move in board.actions():
-            board.make_move(move)
-            val, _ = self.minimax(copy.deepcopy(board), depth - 1)
-            board.undo_move()
-
-            if board.player() == 'X':
-                if val > best_value:
-                    best_value = val
-                    best_move = move
-            else:
-                if val < best_value:
-                    best_value = val
-                    best_move = move
-
-        return best_value, best_move

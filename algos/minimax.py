@@ -1,7 +1,7 @@
 # Minimax Algorithm for Tic-Tac-Toe Game
 import math
-import numpy as np
 import copy
+import numpy as np
 from classes.Game import Board
 
 def minimax(board, depth):
@@ -11,9 +11,7 @@ def minimax(board, depth):
     best_value = -math.inf if board.player() == 'X' else math.inf
     best_move = None
 
-    current_state = copy.deepcopy(board.state)
     for move in board.actions():
-        board.set_state(current_state)
         board.make_move(move)
         val, _ = minimax(copy.deepcopy(board), depth - 1)
         board.undo_move()
@@ -29,6 +27,29 @@ def minimax(board, depth):
 
     return best_value, best_move
 
+def minimax_it(board, depth, iterations):
+    if board.is_terminal() or depth == 0:
+        return board.utility(), None, iterations
+
+    best_value = -math.inf if board.player() == 'X' else math.inf
+    best_move = None
+
+    for move in board.actions():
+        iterations += 1
+        board.make_move(move)
+        val, _, iterations = minimax(copy.deepcopy(board), depth - 1, iterations)
+        board.undo_move()
+
+        if board.player() == 'X':
+            if val > best_value:
+                best_value = val
+                best_move = move
+        else:
+            if val < best_value:
+                best_value = val
+                best_move = move
+
+    return best_value, best_move, iterations
 
 if __name__ == "__main__":
     b = Board((3,3))
