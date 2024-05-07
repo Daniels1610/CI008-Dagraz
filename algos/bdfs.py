@@ -1,6 +1,6 @@
 # BFS & DFS integrated into one Algorithm
-from classes.Stack import Stack
-from classes.Queue import Queue
+from classes.structures.Stack import Stack
+from classes.structures.Queue import Queue
 from typing import Union
 from support.maze_agent import get_index, U, f
 import pandas as pd

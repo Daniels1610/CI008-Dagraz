@@ -1,8 +1,7 @@
 import copy
-import math
 import numpy as np
 from classes.players.Player import Player
-from classes.algos.minimax import minimax
+from algos.minimax import minimax
 
 class SmartComputerPlayer(Player):
     def __init__(self, letter) -> None:
