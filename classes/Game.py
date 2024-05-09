@@ -1,8 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-from classes.players.HumanPlayer import HumanPlayer
-from classes.players.SmartComputerPlayer import SmartComputerPlayer
+
 
 # Board Graphic display settings
 SYMBOL_SIZE = 70
@@ -172,10 +171,3 @@ def play(game:Board, x_player, o_player):
     elif winner == 'O': print(f"PLAYER {o_player.letter} HAS WON!!")
     else: print(f"GAME ENDED IN A DRAW!")
     game.init_state()
-
-# Class Test
-if (__name__ == "__main__"):
-    t = Board(GAME_DIMS)
-    x_player = SmartComputerPlayer('X')
-    o_player = HumanPlayer('O')
-    play(t, x_player, o_player)

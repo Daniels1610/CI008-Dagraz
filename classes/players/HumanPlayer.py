@@ -9,11 +9,17 @@ class HumanPlayer(Player):
         valid_square = False
         move = None
         while not valid_square:
-            move = np.array([int(x) for x in input(f"It's Human Player Turn!: ").split()])
+            col = int(input(f"It's Human Player Turn!: "))
+
             try:
-                if move not in game.actions():
+                if col < 0 and col > game.state.shape[1]:
                     raise ValueError
                 valid_square = True
             except ValueError:
-                print("Invalid Square. Try Again")
-        return move
+                print("Invalid Column. Try Again")
+
+        m = []
+        for move in game.actions():
+            if move[1] == col:
+                m.append(move)
+        return m[-1]
