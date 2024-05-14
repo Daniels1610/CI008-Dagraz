@@ -3,11 +3,10 @@ import math
 import numpy as np
 import copy
 from classes.Game import Board
+from algos.minimax import minimax_it
 
 
 def alfabeta(board, depth:np.int8, alpha, beta):
-    a = alpha; b = beta
-
     if board.is_terminal() or depth == 0:
         return board.utility(), None
 
@@ -23,14 +22,14 @@ def alfabeta(board, depth:np.int8, alpha, beta):
             if val > best_value:
                 best_value = val
                 best_move = move
-            a = np.maximum(a, val)
-            if a >= b: break
+            alpha = np.maximum(alpha, val)
+            if alpha >= b: break
         else:
             if val < best_value:
                 best_value = val
                 best_move = move
-            b = np.minimum(b, val)
-            if a >= b: break
+            beta = np.minimum(beta, val)
+            if alpha >= beta: break
     return best_value, best_move
 
 
@@ -71,6 +70,10 @@ if __name__ == "__main__":
     b.make_move(np.array([2,1]))
     b.make_move(np.array([1,1]))
     b.make_move(np.array([2,2]))
+    # b.make_move(np.array([2,0]))
+    # b.make_move(np.array([0,2]))
+    # b.make_move(np.array([1,2]))
     print(b.state)
-    print(alfabeta(copy.deepcopy(b), 7, -math.inf, math.inf, 0))
+    # print(alfabeta_it(copy.deepcopy(b), 4, -math.inf, math.inf, 0, 0))
+    print(minimax_it(copy.deepcopy(b), 4, 0, 0))
     b.init_state()

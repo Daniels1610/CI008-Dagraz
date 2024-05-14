@@ -4,7 +4,7 @@ import copy
 import numpy as np
 from classes.Game import Board
 
-def minimax(board, depth):
+def minimax(board:Board, depth:int) -> tuple:
     if board.is_terminal() or depth == 0:
         return board.utility(), None
 
@@ -27,17 +27,18 @@ def minimax(board, depth):
 
     return best_value, best_move
 
-def minimax_it(board, depth, iterations):
+def minimax_it(board:Board, depth:int, iterations:int, recursions:int) -> tuple:
     if board.is_terminal() or depth == 0:
-        return board.utility(), None, iterations
+        return board.utility(), None, iterations, recursions
 
+    if iterations != 0: recursions += 1
     best_value = -math.inf if board.player() == 'X' else math.inf
     best_move = None
 
     for move in board.actions():
         iterations += 1
         board.make_move(move)
-        val, _, iterations = minimax(copy.deepcopy(board), depth - 1, iterations)
+        val, _, iterations, recursions = minimax_it(copy.deepcopy(board), depth - 1, iterations, recursions)
         board.undo_move()
 
         if board.player() == 'X':
@@ -49,7 +50,7 @@ def minimax_it(board, depth, iterations):
                 best_value = val
                 best_move = move
 
-    return best_value, best_move, iterations
+    return best_value, best_move, iterations, recursions
 
 if __name__ == "__main__":
     b = Board((3,3))
