@@ -1,5 +1,7 @@
 import numpy as np
 from classes.players.Player import Player
+
+
 class HumanPlayer(Player):
     def __init__(self, letter) -> None:
         super().__init__(letter)
